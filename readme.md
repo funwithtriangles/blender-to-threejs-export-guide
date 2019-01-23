@@ -35,12 +35,16 @@ Instead, the best route here is to export to FBX and then convert to glTF using 
 - Inverse Kinematics work, but animations will need to be baked in the export setting. Also, if you're using empties as targets, you'll need to make sure "Empties" is checked in the FBX export setting.
 - Parenting objects outside of the mesh with a bone is buggy (e.g. weapons, hats). Feels like there might be a way to get this working (please share if you work this out).
 
-### Exporting animations
-If you want separate animations, you'll need to save them as "actions" in Blender. This part of the software is quite unintuitive, especially when it comes to exporting. Some tips:
-- Add new actions in the "action editor"
-- When switching between actions, make sure you have the correct object selected in the 3D View, otherwise the wrong object will suddenly have the animation applied to it
+### Exporting animations (NLA Editor tips)
+If you want separate animations, you'll need to save them as "actions" in Blender and then make sure they are in the NLA editor. This part of the software is quite unintuitive, especially when it comes to exporting. Some tips:
+- Add new actions with the "action editor". You add keyframes as you would with the normal timeline. These apply to one object each.
+- Shape keys can also be animated here, under "Shape key editor"
 - When you're happy with an action, make sure it's "pushed down" into the NLA editor.
-- Actions in the NLA editor, on separate strips, is how you'll export them
+- If you want to edit an action, you must push it down again and delete the old one from the NLA editor.
+- If you want to combine animations for export, they must be above and below each other in the NLA editor, otherwise keep them in separate places on the timeline to stop this from happening.
+- Make sure each action is set to "Nothing" under "Extrapolation" in the properties panel (sub group "Active Strip"). To see the properties panel, make sure you have a strip selected in the NLA editor and press "N".
+- When animating an object, make sure it's transforms are all set to zero. To do this, you need to "Apply" them. Press CTRL+A to do this when selecting the object in the 3D view. If you've done it correctly, you should see Location and Rotation set, scale set to 1 (view in the properties panel). This makes sure the object doesn't move to weird places when it is not being animated as part of a strip.
+- When switching between actions, make sure you have the correct object selected in the 3D View, otherwise the wrong object will suddenly have the animation applied to it
 
 ### Shape keys / Morph Targets
 Shape keys should convert to glTF "morph targets". However, if you're using modifiers such as "mirror" or "subdivision surface", you will not be able to apply these once you've created shape keys. This is a limitation in Blender, you can't apply modifiers to objects with shape keys. This is problematic, because this will need to happen on export (via an option). Note that armature modifiers seem to export fine without any extra effort. You have a few options here:
@@ -62,7 +66,7 @@ As mentioned above, for complex models, the best option is to export to FBX and 
 ### Animation
 - Baked Animation
 - Key All Bones
-- NLA Strips (this one works better instead of "All Actions")
+- NLA Strips (Not "All Actions". See NLA Editor tips above for explanation)
 - Force Start/End Keying
 
 ## Useful links
