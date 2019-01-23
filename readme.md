@@ -1,5 +1,5 @@
 # Blender to three.js export guide
-📋 _This is a living document. The landscape for this topic is constantly changing and so this document will need to evolve with it. If anyone has anything to add/edit/remove, please create a pull request._
+📋 _This is a living document. The landscape for this topic is constantly changing and so this document will need to evolve with it. If anyone has anything to add/edit/remove, please create a pull request or start a discussion with an issue._
 
 ## It's best to export to glTF
 glTF is the open standard for 3D models on the web. It is the format recommended in the three.js documentation. The three loaders for other formats (e.g OBJ, FBX) are not well maintained and it is likely many of them will end up very buggy or completely broken. This guide only explains how to export to glTF.
@@ -13,11 +13,11 @@ After exporting, it's best to test with the [glTF Viewer](https://gltf-viewer.do
 ### 2.79
 - ✔️ Stable version of Blender
 - ✔️ More compatible addons (i.e. [Apply modifier to object with shape keys](https://github.com/przemir/ApplyModifierForObjectWithShapeKeys))
-- ❌ glTF exporter no longer maintained [glTF-Blender-Exporter](https://github.com/KhronosGroup/glTF-Blender-Exporter)
+- ❌ glTF exporter no longer maintained ([glTF-Blender-Exporter](https://github.com/KhronosGroup/glTF-Blender-Exporter))
 - ❌ Textures don't export when going via FBX to glTF convert route
 
 ### 2.8
-- ✔️ glTF exporter actively maintained [glTF-Blender-IO](https://github.com/KhronosGroup/glTF-Blender-IO)
+- ✔️ glTF exporter actively maintained ([glTF-Blender-IO](https://github.com/KhronosGroup/glTF-Blender-IO))
 - ✔️ glTF exporter pre-installed
 - ✔️ Good material export support
 - ❌ Bones are very buggy
@@ -51,6 +51,8 @@ Shape keys should convert to glTF "morph targets". However, if you're using modi
 - Convert the above plugin to be compatible with Blender 2.8 (If you do this, please share on this repo via an issue or PR!!!)
 
 ## Important FBX export options
+As mentioned above, for complex models, the best option is to export to FBX and then convert to glTF using [FBX2glTF](https://github.com/facebookincubator/FBX2glTF). Below are the important options for exporting to FBX from Blender.
+
 ### Main 
 - Version: FBX 7.4 binary
 - Exported features: "Empties", "Armature", "Mesh"
