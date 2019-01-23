@@ -20,8 +20,6 @@ After exporting, it's best to test with the [glTF Viewer](https://gltf-viewer.do
 - ✔️ glTF exporter actively maintained ([glTF-Blender-IO](https://github.com/KhronosGroup/glTF-Blender-IO))
 - ✔️ glTF exporter pre-installed
 - ✔️ Good material export support
-- ❌ Bones are very buggy
-- ❌ Animations are buggy
 - ❌ Many addons are not compatible
 
 ## Exporting a simple mesh (no bones or animation)
