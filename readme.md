@@ -42,9 +42,6 @@ Shape keys should convert to glTF "morph targets". However, if you're using modi
 - If you're using Blender 2.7, use the [Apply modifier to object with shape keys](https://github.com/przemir/ApplyModifierForObjectWithShapeKeys) addon. Note that using Blender 2.7 means you'll lose textures when exporting.
 - Convert the above plugin to be compatible with Blender 2.8 (If you do this, please share on this repo via an issue or PR!!!)
 
-#### Actions with shapekeys
-Actions including shapekeys export fine, but they don't blend well with other actions in three.js. Let's say you have a shape key for a mouth smiling and a shape key for an eyebrow raising. While these will work fine as morphtargets in three.js, if you had a blender action with a smile, you can't "mix in" the brow morph target without the smile coming down. It seems as if Blender is exporting animations with unused morph targets set to 0, rather than null.
-
 ### Exporting animations (NLA Editor tips)
 If you want separate animations, you'll need to save them as "actions" in Blender and then make sure they are in the NLA editor. This part of the software is quite unintuitive, especially when it comes to exporting. Some tips:
 - Add new actions with the "action editor". You add keyframes as you would with the normal timeline. These apply to one object each.
@@ -56,6 +53,10 @@ If you want separate animations, you'll need to save them as "actions" in Blende
 - When animating an object, make sure it's transforms are all set to zero. To do this, you need to "Apply" them. Press CTRL+A to do this when selecting the object in the 3D view. If you've done it correctly, you should see Location and Rotation set, scale set to 1 (view in the properties panel). This makes sure the object doesn't move to weird places when it is not being animated as part of a strip.
 - When switching between actions, make sure you have the correct object selected in the 3D View, otherwise the wrong object will suddenly have the animation applied to it
 
+### A note on mixing actions once in three.js
+Because of the way actions are exported, blending animations doesn't work too well for anything other than transitions. Let's say you have a figure running, and also a figure standing and waving. In an ideal world, you'd be able to blend these two in your application and have a figure running and waving. Unfortunately, instead you'll have a figure halfway between the two states (e.g. walking and half waving). This is because Blender exports all static information as well as important stuff. 
+
+This even applies to animations with multiple meshes. For instance, if you had a character with a hat as a seperate object and you wanted a separate hat wobble animation, you won't be able to blend that animation with something else. The best thing to do here is export each mesh seperately and combine them in three.js. One other option is to manually edit the GLTF JSON file to remove certain animation information, but this really isn't fun.
 
 ## Important FBX export options
 As mentioned above, for complex models, the best option is to export to FBX and then convert to glTF using [FBX2glTF](https://github.com/facebookincubator/FBX2glTF). Below are the important options for exporting to FBX from Blender.
