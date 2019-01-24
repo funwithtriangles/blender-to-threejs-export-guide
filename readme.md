@@ -58,6 +58,8 @@ Because of the way actions are exported, blending animations doesn't work too we
 
 This even applies to animations with multiple meshes. For instance, if you had a character with a hat as a seperate object and you wanted a separate hat wobble animation, you won't be able to blend that animation with something else. The best thing to do here is export each mesh seperately and combine them in three.js. One other option is to manually edit the GLTF JSON file to remove certain animation information, but this really isn't fun.
 
+Note this also applies to shape keys in animations. While they blend perfectly well as separate morph targets, when shape keys are part of an animation they blend in a similar way as explained above.
+
 ## Important FBX export options
 As mentioned above, for complex models, the best option is to export to FBX and then convert to glTF using [FBX2glTF](https://github.com/facebookincubator/FBX2glTF). Below are the important options for exporting to FBX from Blender.
 
