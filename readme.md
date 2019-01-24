@@ -42,6 +42,7 @@ Shape keys should convert to glTF "morph targets". However, if you're using modi
 - If you're using Blender 2.7, use the [Apply modifier to object with shape keys](https://github.com/przemir/ApplyModifierForObjectWithShapeKeys) addon. Note that using Blender 2.7 means you'll lose textures when exporting.
 - Convert the above plugin to be compatible with Blender 2.8 (If you do this, please share on this repo via an issue or PR!!!)
 
+#### Actions with shapekeys
 Actions including shapekeys export fine, but they don't blend well with other actions in three.js. Let's say you have a shape key for a mouth smiling and a shape key for an eyebrow raising. While these will work fine as morphtargets in three.js, if you had a blender action with a smile, you can't "mix in" the brow morph target without the smile coming down. It seems as if Blender is exporting animations with unused morph targets set to 0, rather than null.
 
 ### Exporting animations (NLA Editor tips)
