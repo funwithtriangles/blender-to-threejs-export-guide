@@ -43,14 +43,14 @@ Shape keys should convert to glTF "morph targets". However, if you're using modi
 - Convert the above plugin to be compatible with Blender 2.8 (If you do this, please share on this repo via an issue or PR!!!)
 
 ### Exporting animations (NLA Editor tips)
-If you want separate animations, you'll need to save them as "actions" in Blender and then make sure they are in the NLA editor. This part of the software is quite unintuitive, especially when it comes to exporting. Some tips:
+If you want separate animations, you'll need to save them as "actions" in Blender and then make sure they are in the NLA editor. This part of the software is quite unintuitive, especially when it comes to exporting, it's highly advised to read through the Blender manual on the [NLA Editor](https://docs.blender.org/manual/en/latest/editors/nla/introduction.html). Some relevant tips below:
 - Add new actions with the "action editor". You add keyframes as you would with the normal timeline. These apply to one object each.
 - Shape keys can also be animated here, under "Shape key editor"
-- When you're happy with an action, make sure it's "pushed down" into the NLA editor. Actions that are pushed down are no longer related to the actions you can choose from in the action editor. If you change something in the library of actions, it won't affect the strips in the NLA edito.
-- If you want to edit an action that has been pushed down (a strip), select the strip and press tab. It goes green and your edits will be saved to that strip if you press tab again.
-- If you want to combine animations for export, they must be above and below each other in the NLA editor, otherwise keep them in separate places on the timeline to stop this from happening.
-- Make sure each action is set to "Nothing" under "Extrapolation" in the properties panel (sub group "Active Strip"). To see the properties panel, make sure you have a strip selected in the NLA editor and press "N".
-- When animating an object, make sure it's transforms are all set to zero. To do this, you need to "Apply" them. Press CTRL+A to do this when selecting the object in the 3D view. If you've done it correctly, you should see Location and Rotation set, scale set to 1 (view in the properties panel). This makes sure the object doesn't move to weird places when it is not being animated as part of a strip.
+- When you're happy with an action, make sure it's "pushed down" into the NLA editor. Actions that are pushed down are no longer related to the actions you can choose from in the action editor. If you change something in the library of actions, it won't affect the strips in the NLA editor.
+- If you want to edit an action that has been pushed down (a strip), select the strip and press tab. It goes green (this is known as tweak mode) and your edits will be saved to that strip if you press tab again.
+- Actions on different places on the timeline will be exported as seperate animation clips. Actions above and below each other, layered on the same place on the timeline, will be combined and exported as a single animation clip.
+- Make sure each action is set to "Nothing" under "Extrapolation" in the properties panel (sub group "Active Strip"). This prevents the last frame of one strip affecting strips further along the timeline. To see the properties panel, make sure you have a strip selected in the NLA editor and press "N". This prevents the strips from inteferring with each other further down the timeline.
+- When animating an object, make sure its transforms are all set to zero. To do this, you need to "Apply" them. Press CTRL+A to do this when selecting the object in the 3D view. If you've done it correctly, you should see Location and Rotation set, scale set to 1 (view in the properties panel). This makes sure the object doesn't move to weird places when it is not being animated as part of a strip.
 - When switching between actions, make sure you have the correct object selected in the 3D View, otherwise the wrong object will suddenly have the animation applied to it
 
 ### A note on mixing actions once in three.js
