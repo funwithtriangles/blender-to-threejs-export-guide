@@ -46,8 +46,8 @@ Shape keys should convert to glTF "morph targets". However, if you're using modi
 If you want separate animations, you'll need to save them as "actions" in Blender and then make sure they are in the NLA editor. This part of the software is quite unintuitive, especially when it comes to exporting. Some tips:
 - Add new actions with the "action editor". You add keyframes as you would with the normal timeline. These apply to one object each.
 - Shape keys can also be animated here, under "Shape key editor"
-- When you're happy with an action, make sure it's "pushed down" into the NLA editor.
-- If you want to edit an action, you must push it down again and delete the old one from the NLA editor.
+- When you're happy with an action, make sure it's "pushed down" into the NLA editor. Actions that are pushed down are no longer related to the actions you can choose from in the action editor. If you change something in the library of actions, it won't affect the strips in the NLA edito.
+- If you want to edit an action that has been pushed down (a strip), select the strip and press tab. It goes green and your edits will be saved to that strip if you press tab again.
 - If you want to combine animations for export, they must be above and below each other in the NLA editor, otherwise keep them in separate places on the timeline to stop this from happening.
 - Make sure each action is set to "Nothing" under "Extrapolation" in the properties panel (sub group "Active Strip"). To see the properties panel, make sure you have a strip selected in the NLA editor and press "N".
 - When animating an object, make sure it's transforms are all set to zero. To do this, you need to "Apply" them. Press CTRL+A to do this when selecting the object in the 3D view. If you've done it correctly, you should see Location and Rotation set, scale set to 1 (view in the properties panel). This makes sure the object doesn't move to weird places when it is not being animated as part of a strip.
@@ -73,6 +73,7 @@ As mentioned above, for complex models, the best option is to export to FBX and 
 ### Animation
 - Baked Animation
 - NLA Strips (Not "All Actions". See NLA Editor tips above for explanation)
+- Force Start/End Keying (Enable this if you have any single keyframe animations)
 
 ## Useful links
 - [All exporters/converters and their features](https://github.com/KhronosGroup/glTF/issues/1271)
