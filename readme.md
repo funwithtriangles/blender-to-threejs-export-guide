@@ -145,5 +145,10 @@ As mentioned above, for complex models, the best option is to export to FBX and 
 - NLA Strips (Not "All Actions". See NLA Editor tips above for explanation)
 - Force Start/End Keying (Enable this if you have any single keyframe animations)
 
+## Troubleshooting
+
+### Parts of my mesh are missing when viewing in the browser. glTF error message "Accessor element at index 0 is NaN or Infinity."
+This may be because you've added new parts to a mesh that is not associated with your armature. Try weight painting some of this mesh, or use the "weights > assign autmoatic from bones" in weight painting mode, with bone(s) selected.
+
 ## Useful links
 - [All exporters/converters and their features](https://github.com/KhronosGroup/glTF/issues/1271)
