@@ -103,12 +103,6 @@ loader.load(url, (gltf) => {
 
       const inc = getInc(track.name, scene)
 
-      const numFrames = track.values.length / inc
-
-      if (numFrames < 3) {
-        break
-      }
-
       for (let i = 0; i < track.values.length - inc; i += inc) {
         for (let j = 0; j < inc; j++) {
           if (Math.abs(track.values[ i + j ] - track.values[ i + j + inc ]) > 0.000001) {
