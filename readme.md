@@ -144,5 +144,8 @@ As mentioned above, for complex models, the best option is to export to FBX and 
 ### Parts of my mesh are missing when viewing in the browser. glTF error message "Accessor element at index 0 is NaN or Infinity."
 This may be because you've added new parts to a mesh that is not associated with your armature. Try weight painting some of this mesh, or use the "weights > assign autmoatic from bones" in weight painting mode, with bone(s) selected.
 
+### My object/bone position/rotation/scale is always exporting as 0
+For some reason, if you don't have any values changing for an object from frame to frame, it will be set to 0. A simple fix for this is to make sure that there is some non-zero value change for the position/rotation/scale in your animation. Not sure why this is happening or at what point during the export process.
+
 ## Useful links
 - [All exporters/converters and their features](https://github.com/KhronosGroup/glTF/issues/1271)
