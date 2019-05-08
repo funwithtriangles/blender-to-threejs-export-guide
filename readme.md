@@ -33,6 +33,7 @@ Instead, the best route here is to export to FBX and then convert to glTF using 
 ### Armatures / Bones
 - Don't try and export multiple armatures. Work with one armature per glTF file.
 - Inverse Kinematics work, but animations will need to be baked in the export setting. Also, if you're using empties as targets, you'll need to make sure "Empties" is checked in the FBX export setting.
+- Don't use bendy bones. These don't export for any of the standardised formats. One alternative could be to use normal bones and [Spline IK](https://docs.blender.org/manual/en/dev/rigging/constraints/tracking/spline_ik.html).
 - Parenting objects outside of the mesh with a bone is buggy (e.g. weapons, hats). Feels like there might be a way to get this working (please share if you work this out).
 
 ### Shape keys / Morph Targets
