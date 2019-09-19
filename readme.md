@@ -8,31 +8,11 @@ glTF is the open standard for 3D models on the web. It is the format recommended
 After exporting, it's best to test with the [glTF Viewer](https://gltf-viewer.donmccurdy.com/) by Dom McCurdy. This is a quick and easy way to check your model. If you test with your own code, there's a chance that any problems you experience are from your code and not the model.
 
 ## Which Blender version?
-2.8 is not currently considered stable, so the "safest" answer is use 2.79. However 2.8 does have some nice features that help with exporting to glTF. A quick overview:
-
-### 2.79
-- ✔️ Stable version of Blender
-- ✔️ More compatible addons (i.e. [Apply modifier to object with shape keys](https://github.com/przemir/ApplyModifierForObjectWithShapeKeys))
-- ❌ glTF exporter no longer maintained ([glTF-Blender-Exporter](https://github.com/KhronosGroup/glTF-Blender-Exporter))
-- ❌ Textures don't export when going via FBX to glTF convert route
-
-### 2.8
-- ✔️ glTF exporter actively maintained ([glTF-Blender-IO](https://github.com/KhronosGroup/glTF-Blender-IO))
-- ✔️ glTF exporter pre-installed
-- ✔️ Good material export support
-- ❌ Many addons are not compatible
-
-## Exporting a simple mesh (no bones or animation)
-If all you are doing is exporting a simple mesh, your best bet is to export straight to glTF using [glTF-Blender-Exporter](https://github.com/KhronosGroup/glTF-Blender-Exporter) (Blender 2.79) or [glTF-Blender-IO](https://github.com/KhronosGroup/glTF-Blender-IO) (Blender 2.8)
-
-## Exporting something complicated (bones / shape keys)
-This is where exporting straight to glTF doesn't work so well. Feel free to try (as it may be fixed by the time you read this) but as of the time of writing, exporting a model to glTF with bones seems to cause many issues.
-
-Instead, the best route here is to export to FBX and then convert to glTF using [FBX2glTF](https://github.com/facebookincubator/FBX2glTF). Blender 2.8 plays best here, with 2.79 you will loose all your textures. However, if you are using shape keys and modifiers, you may want to consider using 2.7 (see below).
+For the best results, although possibly unstable, use the very latest version of Blender (2.81 as of writing). Find it on the [daily builds](https://builder.blender.org/download/) page of Blender
 
 ### Armatures / Bones
 - Don't try and export multiple armatures. Work with one armature per glTF file.
-- Inverse Kinematics work, but animations will need to be baked in the export setting. Also, if you're using empties as targets, you'll need to make sure "Empties" is checked in the FBX export setting.
+- Inverse Kinematics work, but animations will need to be "sampled" in export settings. Also, if you're using empties as targets, you'll need to make sure these are also exporting.
 - Don't use bendy bones. These don't export for any of the standardised formats. One alternative could be to use normal bones and [Spline IK](https://docs.blender.org/manual/en/dev/rigging/constraints/tracking/spline_ik.html).
 - Parenting objects outside of the mesh with a bone is buggy (e.g. weapons, hats). Feels like there might be a way to get this working (please share if you work this out).
 
@@ -43,8 +23,13 @@ Shape keys should convert to glTF "morph targets". However, if you're using modi
 - If you're using Blender 2.7, use the [Apply modifier to object with shape keys](https://github.com/przemir/ApplyModifierForObjectWithShapeKeys) addon. Note that using Blender 2.7 means you'll lose textures when exporting.
 - Convert the above plugin to be compatible with Blender 2.8 (If you do this, please share on this repo via an issue or PR!!!)
 
+
 ### Exporting animations (NLA Editor tips)
-If you want separate animations, you'll need to save them as "actions" in Blender and then make sure they are in the NLA editor. This part of the software is quite unintuitive, especially when it comes to exporting, it's highly advised to read through the Blender manual on the [NLA Editor](https://docs.blender.org/manual/en/latest/editors/nla/introduction.html). Some relevant tips below:
+If you want separate animations, you'll need to save them as "actions" in Blender and then make sure they are in the NLA editor. This part of the software is quite unintuitive, especially when it comes to exporting, it's highly advised to read through the Blender manual on the [NLA Editor](https://docs.blender.org/manual/en/latest/editors/nla/introduction.html). 
+
+The below advice may still be useful for some users, so I'm keeping it in for now. However **there is a much simpler way to get your actions exporting**. Just make sure your action is "stashed", and it should export, no need to worry about the NLA Editor. Keep "NLA Strips" checked in the settings as this is still needed. Name your actions rather than the NLA strips.
+
+Some relevant tips below:
 - Add new actions with the "action editor". You add keyframes as you would with the normal timeline. These apply to one object each.
 - Shape keys can also be animated here, under "Shape key editor"
 - When you're happy with an action, make sure it's "pushed down" into the NLA editor. Actions that are pushed down are no longer related to the actions you can choose from in the action editor. If you change something in the library of actions, it won't affect the strips in the NLA editor.
