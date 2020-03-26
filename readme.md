@@ -134,8 +134,25 @@ This may be because you've added new parts to a mesh that is not associated with
 For some reason, if you don't have any values changing for an object from frame to frame, it will be set to 0. A simple fix for this is to make sure that there is some non-zero value change for the position/rotation/scale in your animation. Not sure why this is happening or at what point during the export process.
 
 ### My armature is scaled differently from the mesh. If I try to apply scale to the armature, it breaks the animation
-This is an issue when importing from Mixamo. This script will save you! 
-https://blender.stackexchange.com/questions/143196/apply-scale-to-armature-works-on-rest-position-but-breaks-poses
+This is an issue when importing from Mixamo. Below is a Blender python script that might help. Select your armature and then run the script.
+
+```python
+import bpy
+for a in bpy.data.actions:
+    for fc in a.fcurves:
+        if "location" in fc.data_path:
+            for kp in fc.keyframe_points:
+                kp.co.y *= 0.01
+
+ob = bpy.context.object
+for pb in ob.pose.bones:
+    pb.location = (0, 0, 0)
+
+bpy.ops.object.transform_apply(scale=True)
+```
+
+The above script was modified from a [stack exchange answe](
+https://blender.stackexchange.com/questions/143196/apply-scale-to-armature-works-on-rest-position-but-breaks-poses). More info there!
 
 ## Useful links
 - [All exporters/converters and their features](https://github.com/KhronosGroup/glTF/issues/1271)
