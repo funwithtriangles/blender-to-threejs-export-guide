@@ -133,5 +133,9 @@ This may be because you've added new parts to a mesh that is not associated with
 ### My object/bone position/rotation/scale is always exporting as 0
 For some reason, if you don't have any values changing for an object from frame to frame, it will be set to 0. A simple fix for this is to make sure that there is some non-zero value change for the position/rotation/scale in your animation. Not sure why this is happening or at what point during the export process.
 
+### My armature is scaled differently from the mesh. If I try to apply scale to the armature, it breaks the animation
+This is an issue when importing from Mixamo. This script will save you! 
+https://blender.stackexchange.com/questions/143196/apply-scale-to-armature-works-on-rest-position-but-breaks-poses
+
 ## Useful links
 - [All exporters/converters and their features](https://github.com/KhronosGroup/glTF/issues/1271)
