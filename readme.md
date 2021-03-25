@@ -148,3 +148,4 @@ https://blender.stackexchange.com/questions/143196/apply-scale-to-armature-works
 ## Useful links
 - [All exporters/converters and their features](https://github.com/KhronosGroup/glTF/issues/1271)
 - [Creating Animated glTF Characters with Mixamo and Blender](https://www.donmccurdy.com/2017/11/06/creating-animated-gltf-characters-with-mixamo-and-blender/)
+- [glTF Blender export docs](https://docs.blender.org/manual/en/2.80/addons/io_scene_gltf2.html)
