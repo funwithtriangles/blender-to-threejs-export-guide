@@ -8,9 +8,17 @@ glTF is the open standard for 3D models on the web. It is the format recommended
 After exporting, it's best to test with the [glTF Viewer](https://gltf-viewer.donmccurdy.com/) by Dom McCurdy. This is a quick and easy way to check your model. If you test with your own code, there's a chance that any problems you experience are from your code and not the model.
 
 ## Which Blender version?
-For the best results, although possibly unstable, use the very latest version of Blender (2.81 as of writing). Find it on the [daily builds](https://builder.blender.org/download/) page of Blender
+For the best results, although possibly unstable, use the very latest version of Blender (2.92 as of writing). Find it on the [daily builds](https://builder.blender.org/download/) page of Blender
+
+## PBR Materials
+Exporting PBR from Blender can be done, but there are a few caveats. A lot of it is covered in [this guide](https://docs.blender.org/manual/en/2.80/addons/io_scene_gltf2.html), so definitely read that. Also:
+
+- All texture maps (color, roughness, metalness) must be an image texture. If you're using nodes then you'll want to bake these first! 
+- If you have a metalness map texture or roughness map texture, you *must* then have both set. These two textures are combined into one upon export and you'll come across issues if only one is set. If you're just setting both of these to numeric values, then you're good to go.
+- Keep your file sizes low by choosing JPEG format in the export settings (under Geometry > Images).
 
 ### Armatures / Bones
+- If you're working with Mixamo models, I highly recommend [this guide](https://www.donmccurdy.com/2017/11/06/creating-animated-gltf-characters-with-mixamo-and-blender/)!
 - Don't try and export multiple armatures. Work with one armature per glTF file.
 - Inverse Kinematics work, but animations will need to be "sampled" in export settings. Also, if you're using empties as targets, you'll need to make sure these are also exporting.
 - Don't use bendy bones. These don't export for any of the standardised formats. One alternative could be to use normal bones and [Spline IK](https://docs.blender.org/manual/en/dev/rigging/constraints/tracking/spline_ik.html).
@@ -18,27 +26,17 @@ For the best results, although possibly unstable, use the very latest version of
 
 ### Shape keys / Morph Targets
 Shape keys should convert to glTF "morph targets". However, if you're using modifiers such as "mirror" or "subdivision surface", you will not be able to apply these once you've created shape keys. This is a limitation in Blender, you can't apply modifiers to objects with shape keys. This is problematic, because this will need to happen on export (via an option). Note that armature modifiers seem to export fine without any extra effort. You have a few options here:
+- Try the [Apply modifier to object with shape keys](https://github.com/przemir/ApplyModifierForObjectWithShapeKeys) addon
 - Apply all your modifiers before adding shape keys. This is the simplest option, but is somewhat destructive.
 - Keep your modifiers and do a [manual workaround](https://blender.stackexchange.com/questions/56795/shape-keys-and-applying-subdivision-surface-modifier) to apply modifiers. This could be quite time consuming.
-- If you're using Blender 2.7, use the [Apply modifier to object with shape keys](https://github.com/przemir/ApplyModifierForObjectWithShapeKeys) addon. Note that using Blender 2.7 means you'll lose textures when exporting.
-- Convert the above plugin to be compatible with Blender 2.8 (If you do this, please share on this repo via an issue or PR!!!)
 
+### Exporting animations 
+If you want separate animations, you'll need to save them as "actions" in Blender and then make sure they are in the NLA editor. 
 
-### Exporting animations (NLA Editor tips)
-If you want separate animations, you'll need to save them as "actions" in Blender and then make sure they are in the NLA editor. This part of the software is quite unintuitive, especially when it comes to exporting, it's highly advised to read through the Blender manual on the [NLA Editor](https://docs.blender.org/manual/en/latest/editors/nla/introduction.html). 
-
-The below advice may still be useful for some users, so I'm keeping it in for now. However **there is a much simpler way to get your actions exporting**. Just make sure your action is "stashed", and it should export, no need to worry about the NLA Editor. Keep "NLA Strips" checked in the settings as this is still needed. Name your actions rather than the NLA strips.
-
-Some relevant tips below:
-- Add new actions with the "action editor". You add keyframes as you would with the normal timeline. These apply to one object each.
-- Shape keys can also be animated here, under "Shape key editor"
-- When you're happy with an action, make sure it's "pushed down" into the NLA editor. Actions that are pushed down are no longer related to the actions you can choose from in the action editor. If you change something in the library of actions, it won't affect the strips in the NLA editor.
-- If you want to edit an action that has been pushed down (a strip), select the strip and press tab. It goes green (this is known as tweak mode) and your edits will be saved to that strip if you press tab again.
-- Actions on different places on the timeline will be exported as seperate animation clips. Actions above and below each other, layered on the same place on the timeline, will be combined and exported as a single animation clip. Unfortunately this layering only seems to work for two actions at a time, having three will just export as two actions (Action 1 combined with 2, Action 2 combined with 3).
-- Shape keys won't export as an action unless there is some other action layered with them, you can create an empty action (e.g. add some keyframes to an empty) to make them appear
-- Make sure each action is set to "Nothing" under "Extrapolation" in the properties panel (sub group "Active Strip"). This prevents the last frame of one strip affecting strips further along the timeline. To see the properties panel, make sure you have a strip selected in the NLA editor and press "N". This prevents the strips from inteferring with each other further down the timeline.
-- When animating an object, make sure its transforms are all set to zero. To do this, you need to "Apply" them. Press CTRL+A to do this when selecting the object in the 3D view. If you've done it correctly, you should see Location and Rotation set, scale set to 1 (view in the properties panel). This makes sure the object doesn't move to weird places when it is not being animated as part of a strip.
-- When switching between actions, make sure you have the correct object selected in the 3D View, otherwise the wrong object will suddenly have the animation applied to it
+- Use the dope sheet / action editor to make sure all of your animations are saved as individual actions (it's also good idea to name them something simple)
+- Make sure the actions are "pushed down" into the NLA editor (this can be done from the action editor)
+- If you want to check the actions will be exported, see if they're in the NLA editor. They should have their own strip (not just "stashed" with dotted outline)
+- "Group by NLA Track" should be checked in the export settings
 
 ### A note on mixing actions once in three.js
 Because of the way actions are exported, blending animations doesn't work too well for anything other than transitions. Let's say you have a figure running, and also a figure standing and waving. In an ideal world, you'd be able to blend these two in your application and have a figure running and waving. Unfortunately, instead you'll have a figure halfway between the two states (e.g. walking and half waving). This is because Blender exports all static information as well as important stuff.
@@ -110,20 +108,13 @@ loader.load(url, (gltf) => {
 
 _Please note this code hasn't been well tested._
 
-## Important FBX export options
-As mentioned above, for complex models, the best option is to export to FBX and then convert to glTF using [FBX2glTF](https://github.com/facebookincubator/FBX2glTF). Below are the important options for exporting to FBX from Blender.
-
-### Main 
-- Version: FBX 7.4 binary
-- Exported features: "Empties", "Armature", "Mesh"
-
-### Geometries 
+## Important export options
+### Geometry
 - Apply Modifiers
+- Images: JPEG
 
 ### Animation
-- Baked Animation
-- NLA Strips (Not "All Actions". See NLA Editor tips above for explanation)
-- Force Start/End Keying (Enable this if you have any single keyframe animations)
+- Group by NLA Track
 
 ## Troubleshooting
 
@@ -156,3 +147,4 @@ https://blender.stackexchange.com/questions/143196/apply-scale-to-armature-works
 
 ## Useful links
 - [All exporters/converters and their features](https://github.com/KhronosGroup/glTF/issues/1271)
+- [Creating Animated glTF Characters with Mixamo and Blender](https://www.donmccurdy.com/2017/11/06/creating-animated-gltf-characters-with-mixamo-and-blender/)
