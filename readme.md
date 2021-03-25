@@ -5,10 +5,10 @@
 glTF is the open standard for 3D models on the web. It is the format recommended in the three.js documentation. The three loaders for other formats (e.g OBJ, FBX) are not well maintained and it is likely many of them will end up very buggy or completely broken. This guide only explains how to export to glTF.
 
 ## Test with the glTF viewer
-After exporting, it's best to test with the [glTF Viewer](https://gltf-viewer.donmccurdy.com/) by Dom McCurdy. This is a quick and easy way to check your model. If you test with your own code, there's a chance that any problems you experience are from your code and not the model.
+After exporting, it's best to test with the [glTF Viewer](https://gltf-viewer.donmccurdy.com/) by Dom McCurdy. This is a quick and easy way to check your model without worrying if your own code is broken. It's also worth testing in the [Babylon Sandbox](https://sandbox.babylonjs.com/) if you're having problems with the glTF viewer. One known issue is with [skinned meshes scaling strangely](https://github.com/donmccurdy/three-gltf-viewer/issues/147).
 
 ## Which Blender version?
-For the best results, although possibly unstable, use the very latest version of Blender (2.92 as of writing). Find it on the [daily builds](https://builder.blender.org/download/) page of Blender
+For the best results, use the latest version of Blender (2.92 as of writing). Find it on the [daily builds](https://builder.blender.org/download/) page of Blender
 
 ## PBR Materials
 Exporting PBR from Blender can be done, but there are a few caveats. A lot of it is covered in [this guide](https://docs.blender.org/manual/en/2.80/addons/io_scene_gltf2.html), so definitely read that. Also:
@@ -22,7 +22,7 @@ Exporting PBR from Blender can be done, but there are a few caveats. A lot of it
 - Don't try and export multiple armatures. Work with one armature per glTF file.
 - Inverse Kinematics work, but animations will need to be "sampled" in export settings. Also, if you're using empties as targets, you'll need to make sure these are also exporting.
 - Don't use bendy bones. These don't export for any of the standardised formats. One alternative could be to use normal bones and [Spline IK](https://docs.blender.org/manual/en/dev/rigging/constraints/tracking/spline_ik.html).
-- Parenting objects outside of the mesh with a bone is buggy (e.g. weapons, hats). Feels like there might be a way to get this working (please share if you work this out).
+- Parenting objects outside of the mesh with a bone is buggy (e.g. weapons, hats). Feels like there might be a way to get this working (please share if you work this out, haven't tested in a while so might be good now?).
 
 ### Shape keys / Morph Targets
 Shape keys should convert to glTF "morph targets". However, if you're using modifiers such as "mirror" or "subdivision surface", you will not be able to apply these once you've created shape keys. This is a limitation in Blender, you can't apply modifiers to objects with shape keys. This is problematic, because this will need to happen on export (via an option). Note that armature modifiers seem to export fine without any extra effort. You have a few options here:
