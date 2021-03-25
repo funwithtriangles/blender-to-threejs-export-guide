@@ -22,7 +22,7 @@ Exporting PBR from Blender can be done, but there are a few caveats. A lot of it
 - Don't try and export multiple armatures. Work with one armature per glTF file.
 - Inverse Kinematics work, but animations will need to be "sampled" in export settings. Also, if you're using empties as targets, you'll need to make sure these are also exporting.
 - Don't use bendy bones. These don't export for any of the standardised formats. One alternative could be to use normal bones and [Spline IK](https://docs.blender.org/manual/en/dev/rigging/constraints/tracking/spline_ik.html).
-- Parenting objects outside of the mesh with a bone is buggy (e.g. weapons, hats). Feels like there might be a way to get this working (please share if you work this out, haven't tested in a while so might be good now?).
+- Parenting meshes to a bone (rather than skinning) works. Select the object, shift-select the bone in pose mode and press `ctrl + p` > `to bone`. Do not use the "child of" constraint, this won't export.
 
 ### Shape keys / Morph Targets
 Shape keys should convert to glTF "morph targets". However, if you're using modifiers such as "mirror" or "subdivision surface", you will not be able to apply these once you've created shape keys. This is a limitation in Blender, you can't apply modifiers to objects with shape keys. This is problematic, because this will need to happen on export (via an option). Note that armature modifiers seem to export fine without any extra effort. You have a few options here:
@@ -35,7 +35,7 @@ If you want separate animations, you'll need to save them as "actions" in Blende
 
 - Use the dope sheet / action editor to make sure all of your animations are saved as individual actions (it's also good idea to name them something simple)
 - Make sure the actions are "pushed down" into the NLA editor (this can be done from the action editor)
-- If you want to check the actions will be exported, see if they're in the NLA editor. They should have their own strip (not just "stashed" with dotted outline)
+- If you want to check which actions will be exported, see if they're in the NLA editor. They should have their own strip (not just "stashed" with dotted outline)
 - "Group by NLA Track" should be checked in the export settings
 
 ### A note on mixing actions once in three.js
