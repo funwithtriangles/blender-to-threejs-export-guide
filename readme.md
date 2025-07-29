@@ -124,6 +124,9 @@ This may be because you've added new parts to a mesh that is not associated with
 ### My object/bone position/rotation/scale is always exporting as 0
 For some reason, if you don't have any values changing for an object from frame to frame, it will be set to 0. A simple fix for this is to make sure that there is some non-zero value change for the position/rotation/scale in your animation. Not sure why this is happening or at what point during the export process.
 
+### When I try to do a displacement shader (using normals) on my mesh, the triangles are all split! It's fine in Blender
+GLTF always stores triangles separately. That means triangles are not sharing vertices and can separate like this. The issue here is that when your shader uses a normal to displace, if the normals are different across the vertices in the same location, they will separate from each other. The fix is to do a [shade smooth](https://docs.blender.org/manual/en/2.91/scene_layout/object/editing/shading.html) on your object in Blender, ensuring that the normals will match at any given vertex.
+
 ### My armature is scaled differently from the mesh. If I try to apply scale to the armature, it breaks the animation
 This is an issue when importing from Mixamo. Below is a Blender python script that might help. Select your armature and then run the script.
 
