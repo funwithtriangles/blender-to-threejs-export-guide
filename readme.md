@@ -8,10 +8,10 @@ glTF is the open standard for 3D models on the web. It is the format recommended
 After exporting, it's best to test with the [glTF Viewer](https://gltf-viewer.donmccurdy.com/) by Dom McCurdy. This is a quick and easy way to check your model without worrying if your own code is broken. It's also worth testing in the [Babylon Sandbox](https://sandbox.babylonjs.com/) if you're having problems with the glTF viewer. One known issue is with [skinned meshes scaling strangely](https://github.com/donmccurdy/three-gltf-viewer/issues/147).
 
 ## Which Blender version?
-For the best results, use the latest version of Blender (2.92 as of writing). Find it on the [daily builds](https://builder.blender.org/download/) page of Blender
+For the best results, use the latest version of Blender (5.2 LTS as of writing). Find it on the [daily builds](https://builder.blender.org/download/) page of Blender
 
 ## PBR Materials
-Exporting PBR from Blender can be done, but there are a few caveats. A lot of it is covered in [this guide](https://docs.blender.org/manual/en/2.80/addons/io_scene_gltf2.html), so definitely read that. Also:
+Exporting PBR from Blender can be done, but there are a few caveats. A lot of it is covered in [this guide](https://docs.blender.org/manual/en/latest/addons/scene_gltf2.html), so definitely read that. Also:
 
 - All texture maps (color, roughness, metalness) must be an image texture. If you're using nodes then you'll want to bake these first! 
 - If you have a metalness map texture or roughness map texture, you *must* then have both set. These two textures are combined into one upon export and you'll come across issues if only one is set. If you're just setting both of these to numeric values, then you're good to go.
@@ -147,6 +147,9 @@ bpy.ops.object.transform_apply(scale=True)
 
 The above script was modified from a [stack exchange answe](
 https://blender.stackexchange.com/questions/143196/apply-scale-to-armature-works-on-rest-position-but-breaks-poses). More info there!
+
+### My bump map isn't exporting
+Bump maps are not part of the glTF format. You need to use a normal map instead, which will export correctly. If you have a nice bump map in Blender, bake it to an image texture node (using the Cycles renderer) and wire that through a Normal Map node. Detailed explanation in the [Blender GLTF Add On Guide](https://docs.blender.org/manual/en/latest/addons/scene_gltf2.html#normal-map).
 
 ## Useful links
 - [All exporters/converters and their features](https://github.com/KhronosGroup/glTF/issues/1271)
